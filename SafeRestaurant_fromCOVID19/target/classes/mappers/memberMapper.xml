@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="org.zerock.mapper.MemberMapper">
+
+	<select id="checkId" resultType="string">
+	 <![CDATA[
+		select password from member where id=#{userId}
+	 ]]>
+	</select>
+	
+	<select id="storecheckId" resultType="string">
+	 <![CDATA[
+		select password from storemember where id=#{userId}
+	 ]]>
+	</select>
+	
+	<select id="login" resultType="int">
+	 <![CDATA[
+		select count(*) from member where id=#{id} and password=#{password}
+	 ]]>
+	</select>
+	
+	<insert id="join">
+	 <![CDATA[
+		insert into member (id, password, tel, address) values (#{id}, #{password}, #{tel}, #{address})
+	 ]]>
+	</insert>
+	
+	<select id="searchId" resultType="MemberVO">
+	 <![CDATA[
+		select * from member where tel=#{tel} and address=#{address}
+	 ]]>
+	</select>
+	
+	<select id="storesearchId" resultType="StoreMemberVO">
+	 <![CDATA[
+		select * from storemember where storecode=#{storecode} and address=#{address} and storename=#{storename} 
+	 ]]>
+	</select>
+	
+	<select id="searchPw" resultType="int">
+	 <![CDATA[
+		select count(*) from member where id=#{id} and tel=#{tel} and address=#{address}
+	 ]]>
+	</select>
+	
+	<select id="StoresearchPw" resultType="int">
+	 <![CDATA[
+		select count(*) from storemember where id=#{id} and storecode=#{storecode} and address=#{address} and storename=#{storename}
+	 ]]>
+	</select>
+	
+	<update id="changePw">
+	 <![CDATA[
+		update member set password=#{password} where id=#{id}
+	 ]]>
+	</update>
+	
+	<update id="changePw2">
+	 <![CDATA[
+		update storemember set password=#{password} where id=#{id}
+	 ]]>
+	</update>
+	
+	<select id="oneMember" resultType="MemberVO">
+	 <![CDATA[
+		select * from member where id=#{id}
+	 ]]>
+	</select>
+	
+	<update id="modifyMem">
+	 <![CDATA[
+		update member set tel=#{tel}, address=#{address} where id=#{id}
+	 ]]>
+	</update>
+	
+	<update id="modifyMemstore">
+	 <![CDATA[
+		update storemember set tel1=#{tel1}, tel2=#{tel2}, storename=#{storename}, address=#{address} where id=#{id} and storecode=#{storecode}
+	 ]]>
+	</update>
+	
+	<select id="getId" resultType="String">
+	 <![CDATA[
+	 	select * from member where id=#{userId}
+	 ]]>
+	</select>
+	
+	<insert id="storememberinsert">
+		<![CDATA[
+			insert into storemember(storecode, id, password, tel1, tel2, storename, address) values (#{storecode}, #{id}, #{password}, #{tel1}, #{tel2}, #{storename}, #{address})
+		]]>
+	</insert>
+	
+	<select id="dbstoreInfo" resultType="StoreMemberVO">
+		<![CDATA[
+			select * from storemember where id=#{id} and storecode=#{storecode}
+		]]>
+	</select>
+</mapper>

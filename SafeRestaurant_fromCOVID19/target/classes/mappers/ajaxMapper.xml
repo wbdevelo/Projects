@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="org.zerock.mapper.AjaxMapper">
+
+	<select id="rank" resultMap="byeol">
+	 <![CDATA[
+		select storecode, storename, avg(starpoint) as pointavg from review where dosi=#{si} group by storename order by pointavg desc limit 10
+	 ]]>
+	</select>
+	
+	<resultMap type="hashMap" id="byeol"></resultMap>
+	
+	<select id="selectLIkeId" resultType="int">
+		<![CDATA[
+			select count(*) from likes where id=#{id} and storecode=#{storecode}
+		]]>
+	</select>
+	
+	<insert id="insertLike">
+		<![CDATA[
+			insert into likes (id, storecode, reg_date) values (#{id}, #{storecode}, #{reg_date})
+		]]>
+	</insert>
+	
+	<select id="LikeChk" resultType="LIkesVO">
+		<![CDATA[
+			select * from likes where id=#{id}
+		]]>
+	</select>
+	
+	<update id="updateLikechk">
+		<![CDATA[
+			update likes set likechk=#{likechk} where id=#{id} and storecode=#{storecode}
+		]]>
+	</update>
+	
+	<select id="likesIdselect" resultType="int">
+		<![CDATA[
+			select count(*) from likes where id=#{id}
+		]]>
+	</select>
+	
+	<select id="getLikechk" resultType="hashMap">
+		<![CDATA[
+			select * from likes where id=#{id}
+		]]>
+	</select>
+	
+	
+	<select id="getLike" resultType="string">
+		<![CDATA[
+			select likechk from likes where id=#{id} and storecode=#{storecode}
+		]]>
+	</select>
+	
+</mapper>

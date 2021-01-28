@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="org.zerock.mapper.AdminMapper">
+
+	<insert id="insertExcel">
+	 <![CDATA[
+		insert into adminexcel (file_name, pick, file_path) values (#{file_name}, "사용중", #{file_path})
+	 ]]>
+	</insert>
+	
+	<select id="getExcelList" resultType="AdminExcelVO">
+	 <![CDATA[
+		select * from adminexcel order by pick desc, uid desc
+	 ]]>
+	</select>
+	
+	<update id="changeAll_to_noUse">
+	 <![CDATA[
+		update adminexcel set pick=""
+	 ]]>
+	</update>
+	
+	<delete id="delExcel">
+	 <![CDATA[
+		delete from adminexcel where uid=#{uid}
+	 ]]>
+	</delete>
+	
+	<update id="changeUse">
+	 <![CDATA[
+		update adminexcel set pick="사용중" where uid=#{uid}
+	 ]]> 
+	</update>
+	
+	<select id="getPath" resultType="string">
+	 <![CDATA[
+		select file_path from adminexcel where pick="사용중"
+	 ]]>
+	</select>
+	
+	<select id="allMember" resultType="MemberVO">
+	 <![CDATA[
+		select * from member where level="1" or level="0" order by level desc
+	 ]]>
+	</select>
+	
+	<update id="force">
+	 <![CDATA[
+		update member set level="0" where id=#{id}
+	 ]]>
+	</update>
+	
+	<update id="updateImg1">
+	 <![CDATA[
+		update slide set file_name=#{file_name} where num=#{num}
+	 ]]>
+	</update>
+	<update id="updateImg2">
+	 <![CDATA[
+		update slide set file_name=#{file_name}, num=#{num} where uid=#{uid}
+	 ]]>
+	</update>
+	
+	<select id="getSlide1" resultType="SlideImgVO">
+	 <![CDATA[
+		select * from slide order by num asc
+	 ]]>
+	</select>
+	
+	<select id="getSlide2" resultType="SlideImgVO">
+	 <![CDATA[
+		select * from slide order by uid desc
+	 ]]>
+	</select>
+	
+	<select id="checkImg" resultType="int">
+	 <![CDATA[
+		select count(*) from slide where num=#{num}
+	 ]]>
+	</select>
+	
+	<insert id="insertImg">
+	 <![CDATA[
+		insert into slide (file_name) values (#{file_name})
+	 ]]>
+	</insert>
+	
+	<delete id="deleteslide">
+		<![CDATA[
+			delete from slide where uid=#{uid}
+		]]>
+	</delete>
+	
+	<select id="getSlideInfo" resultType="SlideImgVO">
+		<![CDATA[
+			select * from slide where uid=#{uid}
+		]]>
+	</select>
+	
+	<select id="getAllask" resultType="AskVO">
+	 <![CDATA[
+		select * from ask where postUid="0" order by date desc
+	 ]]>
+	</select>
+	
+	<select id="countAnswer" resultType="string">
+	 <![CDATA[
+		select count(*) from ask where postUid=#{uid}
+	 ]]>
+	</select>
+</mapper>

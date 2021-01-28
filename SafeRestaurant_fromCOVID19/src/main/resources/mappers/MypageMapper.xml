@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="org.zerock.mapper.MypageMapper">
+
+	<select id="memberInfo" resultType="MemberVO">
+	 <![CDATA[
+		select * from member where id=#{session_id}
+	 ]]>
+	</select>
+	
+	<select id="storememberInfo" resultType="StoreMemberVO">
+	 <![CDATA[
+		select * from storemember where id=#{session_id}
+	 ]]>
+	</select>
+	
+	<update id="changePass">
+	 <![CDATA[
+		update member set password=#{password} where id=#{id}
+	 ]]>
+	</update>
+	
+	<update id="changePassStore">
+	 <![CDATA[
+		update storemember set password=#{password} where id=#{id}
+	 ]]>
+	</update>
+	
+	<update id="secession">
+	 <![CDATA[
+		update member set level="0" where id=#{id}
+	 ]]>
+	</update>
+	
+	<update id="secession2">
+	 <![CDATA[
+		update storemember set level="0" where id=#{id}
+	 ]]>
+	</update>
+	
+	<select id="jjimList" resultType="LIkesVO">
+	 <![CDATA[
+		select * from likes where id=#{id} and likechk="1" limit #{limitStart}, #{pagePerPost}
+	 ]]>
+	</select>
+	
+	<update id="cancelLike">
+	 <![CDATA[
+		update likes set likechk="0" where storecode=#{code} and id=#{name}
+	 ]]>
+	</update>
+	
+	<select id="countLike" resultType="int">
+	 <![CDATA[
+		select count(*) from likes where id=#{id} and likechk="1"
+	 ]]>
+	</select>
+	
+	<select id="reservList" resultType="ReservationVO">
+	 <![CDATA[
+		select * from reservation where id=#{id} order by reserv_date asc #{limitStart}, #{pagePerPost}
+	 ]]>
+	</select>
+	
+	<select id="reservList2" resultType="ReservationVO">
+	 <![CDATA[
+		select * from reservation where code=#{code} order by reserv_date asc;
+	 ]]>
+	</select>
+	
+	<delete id="cancel_reserv">
+	 <![CDATA[
+		delete from reservation where uid=#{uid}
+	 ]]>
+	</delete>
+	
+	<select resultType="int" id="countAsk">
+	<![CDATA[
+		select count(*) from ask where id=#{id}
+	 ]]>
+	</select>
+	
+	<select resultType="int" id="totalReserv">
+	<![CDATA[
+		select count(*) from reservation where id=#{id}
+	 ]]>
+	</select>
+</mapper>

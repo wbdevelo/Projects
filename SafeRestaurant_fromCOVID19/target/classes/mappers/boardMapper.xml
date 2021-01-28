@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="org.zerock.mapper.BoardrMapper">
+	<insert id="reviewInsert">
+		<![CDATA[
+			insert into review (id, storecode, dosi, sigugun, address, starpoint, comment, flie_o, storename, fid) values (#{id}, #{storecode}, #{dosi}, #{sigugun}, #{address}, #{starpoint}, #{comment}, #{flie_o}, #{storename}, #{fid})
+	 	]]>
+	</insert>
+	
+	<select id="reviewSelect" resultType="ReviewVO">
+		<![CDATA[
+			select * from review where storecode=#{code} order by fid desc, signdate asc
+		]]>
+	</select>
+	
+	<delete id="reviewDelete">
+		<![CDATA[
+			delete from review where uid=#{uid}
+		]]>
+	</delete>
+	
+	<insert id="inStore">
+		<![CDATA[
+			insert into reservation (id, code, res_name, res_tel, res_date, res_addr, reserv_date, reserv_time, peopleNum) values (#{id}, #{code}, #{res_name}, #{res_tel}, #{res_date}, #{res_addr}, #{reserv_date}, #{reserv_time}, #{peopleNum})
+		]]>
+	</insert>
+	
+	<select id="reservList" resultType="ReservationVO">
+		<![CDATA[
+			select * from reservation where id=#{id} and reserv_date=#{reserv_date}
+		 ]]>
+	</select>
+	
+	<select id="StroeGetMember" resultType="StoreMemberVO">
+		<![CDATA[
+		 	select * from storemember where storecode=#{code}
+		 ]]>
+	</select>
+	
+	<insert id="menuInsert">
+		<![CDATA[
+			insert into menu (storecode, id, price, content, file) values (#{storecode}, #{id}, #{price}, #{content}, #{file})
+		]]>
+	</insert>
+	
+	<select id="ListMenuGet" resultType="MenuVO">
+		<![CDATA[
+			select * from menu where storecode=#{code}
+		]]>
+	</select>
+	
+	<delete id="deletemenu">
+		<![CDATA[
+			delete from menu where uid=#{uid}
+		]]>
+	</delete>
+	
+	<update id="updatemenu">
+		<![CDATA[
+			update menu set price=#{price}, content=#{content}, file=#{file} where uid=#{uid}
+		]]>
+	</update>
+	
+	<select id="getfid" resultType="int">
+		<![CDATA[
+			select max(fid) from review where storecode=#{code}
+		]]>
+	</select>
+	
+	<select id="getFidwhereUid" resultType="ReviewVO">
+		<![CDATA[
+			select * from review where uid=#{uid}
+		]]>
+	</select>
+	
+	<insert id="insertReplay">
+		<![CDATA[
+			insert into comment (id, storecode, fid, content) values (#{id}, #{storecode}, #{fid}, #{content})
+		]]>
+	</insert>
+	
+	<select id="listcomment" resultType="CommentVO">
+		<![CDATA[
+			select * from comment where storecode=#{code};
+		]]>
+	</select>
+	
+	<select id="getFidcnt" resultType="int">
+		<![CDATA[
+			select count(fid) from review where storecode=#{code};
+		]]>
+	</select>
+</mapper>
